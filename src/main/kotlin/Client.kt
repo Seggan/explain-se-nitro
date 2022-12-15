@@ -7,7 +7,13 @@ import kotlin.math.max
 import kotlin.math.min
 
 fun main() {
-    window.onload = { onLoad() }
+    window.onload = {
+        try {
+            onLoad()
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+    }
 }
 
 private val comicRegex = "\\(\\( (\\d+) \\)\\)".toRegex()
@@ -29,27 +35,35 @@ fun onLoad() {
             }
             document.getElementById("content")!!.innerHTML = html
         }
-    "#prev-p".addEventListener("click") {
+    "prev-s".addEventListener("click") {
         window.location.search = "?p=${max(1, part - 1)}&c=$chapter"
     }
-    "#next-p".addEventListener("click") {
+    "next-s".addEventListener("click") {
         window.location.search = "?p=${min(part + 1, 2)}&c=$chapter"
     }
-    "#prev-c".addEventListener("click") {
+    "prev-c".addEventListener("click") {
         window.location.search = "?p=$part&c=${max(1, chapter - 1)}"
     }
-    "#next-c".addEventListener("click") {
+    "next-c".addEventListener("click") {
         window.location.search = "?p=$part&c=${min(chapter + 1, chaptersPerPart[part]!!)}"
     }
+    document.getElementById("section")!!.textContent = "Part $part"
+    document.getElementById("chapter")!!.textContent = "Chapter $chapter"
 }
 
 private fun getPartAndChapter(): Pair<Int, Int> {
     val params = URLSearchParams(window.location.search)
-    val part = params.get("part")?.toIntOrNull() ?: 1
-    val chapter = params.get("chapter")?.toIntOrNull() ?: 1
+    val part = params.get("p")?.toIntOrNull() ?: 1
+    val chapter = params.get("c")?.toIntOrNull() ?: 1
     return part to chapter
 }
 
 private fun String.addEventListener(event: String, callback: (Event) -> Unit) {
-    document.querySelector(this)!!.addEventListener(event, callback)
+    document.getElementById(this)!!.addEventListener(event, {
+        try {
+            callback(it)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+        }
+    })
 }
