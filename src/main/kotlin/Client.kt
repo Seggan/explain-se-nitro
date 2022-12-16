@@ -2,7 +2,6 @@ import kotlinx.browser.document
 import kotlinx.browser.window
 import org.w3c.dom.events.Event
 import org.w3c.dom.url.URLSearchParams
-import org.w3c.fetch.Response
 import kotlin.math.max
 import kotlin.math.min
 
@@ -23,18 +22,15 @@ private val chaptersPerPart = mapOf(
     2 to 6
 )
 
+external val require: dynamic
+
 fun onLoad() {
     val (part, chapter) = getPartAndChapter()
-    window.fetch("https://raw.githubusercontent.com/Seggan/explain-se-nitro/master/explanations/p$part/c$chapter.md")
-        .then(Response::text)
-        .then(String::parseMd)
-        .then {
-            val html = it.replace(comicRegex) { match ->
-                val comic = match.groupValues[1]
-                """<a href="https://se-nitro.surge.sh/#$part-$chapter-$comic"><img src="https://se-nitro.surge.sh/comics/p$part/c$chapter/$comic.png"></a>"""
-            }
-            document.getElementById("content")!!.innerHTML = html
-        }
+    val html = (require("./p$part/c$chapter.md") as String).parseMd().replace(comicRegex) { match ->
+        val comic = match.groupValues[1]
+        """<a href="https://se-nitro.surge.sh/#$part-$chapter-$comic"><img src="https://se-nitro.surge.sh/comics/p$part/c$chapter/$comic.png"></a>"""
+    }
+    document.getElementById("content")!!.innerHTML = html
     "prev-s".addEventListener("click") {
         window.location.search = "?p=${max(1, part - 1)}&c=$chapter"
     }
