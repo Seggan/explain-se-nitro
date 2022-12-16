@@ -28,7 +28,7 @@ fun onLoad() {
     val (part, chapter) = getPartAndChapter()
     val html = (require("./p$part/c$chapter.md") as String).parseMd().replace(comicRegex) { match ->
         val comic = match.groupValues[1]
-        """<a href="https://se-nitro.surge.sh/#$part-$chapter-$comic"><img src="https://se-nitro.surge.sh/comics/p$part/c$chapter/$comic.png"></a>"""
+        """<a href="https://se-nitro.surge.sh/#$part-$chapter-$comic"><img src="https://se-nitro.surge.sh/comics/p$part/c$chapter/$comic.png"></a><br>"""
     }
     document.getElementById("content")!!.innerHTML = html
     "prev-s".addEventListener("click") {

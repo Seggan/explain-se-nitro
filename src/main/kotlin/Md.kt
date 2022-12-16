@@ -12,7 +12,7 @@ private val mdToHtml = mapOf(
     "\\[(.*?)\\]\\((.*?)\\)" to "<a href=\"$2\">$1</a>",
     "\\*(.*?)\\*" to "<em>$1</em>",
     "\\*\\*(.*?)\\*\\*" to "<strong>$1</strong>",
-    "\\n\\n" to "<br/>",
+    "\\n\\n" to "<br>",
 ).mapKeys { it.key.toRegex() }
 
 fun String.parseMd(): String {
