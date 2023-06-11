@@ -1,0 +1,7 @@
+@fn user $id: int -> {
+    @let(
+        url="https://codegolf.stackexchange.com/users/$id",
+        reg=@regex::compile `User (\w+) -`
+    )...
+    @href($url) @list::get(1) @reg::find @net::fetch_raw $url
+}
