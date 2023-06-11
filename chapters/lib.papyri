@@ -1,3 +1,4 @@
+# Replaces a user id with a link to their profile
 @fn user($site: str = `codegolf.stackexchange`) $id: int -> {
     @let(
         url="https://$site.com/users/$id",
@@ -5,3 +6,6 @@
     )...
     @href($url) @list::get(1) @reg::find @net::fetch_raw $url
 }
+
+# Creates a dialog paragraph
+@fn talk $text: html -> @blockquote @emph $text

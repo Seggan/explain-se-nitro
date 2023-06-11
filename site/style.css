@@ -2,10 +2,6 @@ body {
     margin-left: 3%;
 }
 
-img {
-    margin-top: 2em;
-}
-
 a:visited {
     color: cornflowerblue;
 }
@@ -16,4 +12,5 @@ a:link {
 
 img {
     display:block;
+    margin-top: 2em;
 }

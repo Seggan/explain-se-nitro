@@ -30,7 +30,7 @@ fn main() {
             let frame_func = format!(
                 r#"
 @fn frame $num: int -> {{
-    @href(`https://se-nitro.surge.sh/\#{}-{}-$num`) @image "https://se-nitro.surge.sh/comics/p{}/c{}/$num.png"
+    @href("https://se-nitro.surge.sh/\#{}-{}-$num") @image "https://se-nitro.surge.sh/comics/p{}/c{}/$num.png"
 }}
                 "#,
                 part_num,
